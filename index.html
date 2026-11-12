@@ -243,6 +243,7 @@
   .form-reserva textarea{min-height:80px;resize:vertical}
   .form-reserva input:focus,.form-reserva select:focus,.form-reserva textarea:focus{outline:none;border-color:var(--turquesa);box-shadow:0 0 0 3px rgba(19,179,194,.18)}
   .check{display:flex;gap:.6rem;align-items:flex-start;margin-top:1rem;font-size:.88rem;color:#3c566b}
+  .form-reserva .check{font-weight:400;color:#3c566b;font-size:.88rem;margin-top:1rem}
   .check input{width:auto;margin-top:.2rem}
   .form-reserva .b{margin-top:1.2rem;padding:.85rem 1.6rem;font-size:.95rem}
   .msg-reserva{margin-top:.8rem;font-size:.9rem;min-height:1.2rem}
@@ -262,6 +263,7 @@
   .estado.confirmada{background:#dff5e6;color:#1f7a3a}
   .estado.rechazada{background:#ffe3da;color:#a3341a}
   .estado.cancelada{background:#e9eef1;color:#5d6f7c}
+  .vencida{font-size:.72rem;font-weight:700;color:#a3341a;background:#ffece6;border-radius:999px;padding:.2rem .55rem;margin-left:.4rem}
   .reserva .acciones{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
   .reserva textarea{width:100%;min-height:54px;margin-top:.6rem;padding:.5rem .7rem;border:1px solid #cfe0e7;border-radius:10px;font:inherit;font-size:.85rem}
   .mi-id{margin-top:1.4rem;font-size:.8rem;color:var(--suave)}
@@ -521,6 +523,10 @@
         <option value="pendiente">Pendientes por validar</option><option value="confirmada">Confirmadas</option>
         <option value="rechazada">Rechazadas</option><option value="cancelada">Canceladas</option><option value="">Todas</option>
       </select>
+      <div class="fila-acciones">
+        <input id="buscar-res" type="search" placeholder="Buscar por nombre, teléfono, correo o destino" style="flex:1">
+        <button type="button" class="b b-sec" id="btn-csv">⬇ Descargar CSV</button>
+      </div>
       <div class="msg-panel" id="msg-res"></div>
       <div id="lista-res-admin"></div>
     </div>
@@ -693,14 +699,17 @@
     const sel=$("r-destino"), actual=sel.value; sel.innerHTML="";
     const dests=DATOS.filter(d=>d.tipo==="destino").sort(porOrden);
     const o0=el("option","",dests.length?"Selecciona un destino":"Aún no hay destinos registrados"); o0.value=""; sel.appendChild(o0);
-    dests.forEach(d=>{ const o=el("option","",d.titulo); o.value=d.titulo; sel.appendChild(o); });
+    dests.forEach(d=>{ const o=el("option","",d.titulo); o.value=d.id; sel.appendChild(o); });
     if([...sel.options].some(o=>o.value===actual)) sel.value=actual;
   }
-  function hoyISO(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+  function hoyISO(dias){ const d=new Date(); d.setDate(d.getDate()+(dias||0)); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+  const MAX_PENDIENTES=3;
 
   function tarjetaReserva(r, modoAdmin){
     const c=el("div","reserva "+(r.estado||""));
-    const cab=el("div","cab"); cab.appendChild(el("span","dest",r.destino)); cab.appendChild(el("span","estado "+(r.estado||""),ESTADOS[r.estado]||r.estado));
+    const cab=el("div","cab"); const t=el("span","dest",r.destino);
+    if(r.estado==="pendiente" && r.fecha && r.fecha<hoyISO()) t.appendChild(el("span","vencida","Fecha vencida"));
+    cab.appendChild(t); cab.appendChild(el("span","estado "+(r.estado||""),ESTADOS[r.estado]||r.estado));
     c.appendChild(cab);
     c.appendChild(el("div","det",fechaBonita(r.fecha)+" · "+r.personas+(r.personas==1?" persona":" personas")+" · "+(SERVICIOS[r.servicio]||r.servicio)));
     if(modoAdmin){
@@ -709,7 +718,9 @@
     }
     if(r.notaAdmin) c.appendChild(el("div","nota","Nota del administrador: "+r.notaAdmin));
     const acc=el("div","acciones");
-    if(modoAdmin){
+    if(modoAdmin && r.estado==="cancelada"){
+      c.appendChild(el("div","det","Cancelada por el usuario. No requiere validación."));
+    } else if(modoAdmin){
       const nota=el("textarea"); nota.placeholder="Nota para el usuario (opcional)"; nota.maxLength=300; nota.value=r.notaAdmin||""; c.appendChild(nota);
       const cambiar=async(estado)=>{
         try{ await updateDoc(doc(db,"reservas",r.id),{estado,notaAdmin:nota.value.trim(),revisadoPor:usuario.uid,actualizado:serverTimestamp()});
@@ -740,13 +751,25 @@
     $("cuenta-pend").textContent=pend?"("+pend+")":"";
     const res=$("resumen-res"); res.innerHTML="";
     Object.keys(ESTADOS).forEach(k=>res.appendChild(el("span","estado "+k,ESTADOS[k]+": "+RESERVAS.filter(r=>r.estado===k).length)));
-    const filtro=$("filtro-res").value;
-    const lista=RESERVAS.filter(r=>!filtro||r.estado===filtro).sort(porFechaCreacion);
+    const filtro=$("filtro-res").value, q=$("buscar-res").value.trim().toLowerCase();
+    const lista=RESERVAS.filter(r=>(!filtro||r.estado===filtro) &&
+        (!q || [r.nombre,r.telefono,r.correo,r.destino].some(v=>String(v||"").toLowerCase().includes(q))))
+      .sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
     const la=$("lista-res-admin"); la.innerHTML="";
     if(!lista.length) la.appendChild(el("p","det","No hay reservas en este estado."));
     lista.forEach(r=>la.appendChild(tarjetaReserva(r,true)));
   }
   $("filtro-res").onchange=pintarReservas;
+  $("buscar-res").oninput=pintarReservas;
+  $("btn-csv").onclick=()=>{
+    const cols=["fecha","destino","nombre","telefono","correo","personas","nivel","servicio","estado","comentarios","notaAdmin"];
+    const esc=v=>{ let t=String(v==null?"":v); if(/^[=+\-@]/.test(t)) t="'"+t; return '"'+t.replace(/"/g,'""')+'"'; };
+    const filas=[cols.join(";")].concat(RESERVAS.slice().sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)))
+      .map(r=>cols.map(c=>esc(c==="servicio"?SERVICIOS[r[c]]:c==="estado"?ESTADOS[r[c]]:r[c])).join(";")));
+    const blob=new Blob(["\ufeff"+filas.join("\r\n")],{type:"text/csv;charset=utf-8"});
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="reservas_buceo_"+hoyISO()+".csv"; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  };
   document.querySelectorAll(".pestanas button").forEach(b=>b.onclick=()=>{
     document.querySelectorAll(".pestanas button").forEach(x=>x.classList.toggle("activa",x===b));
     $("pest-contenido").style.display=b.dataset.pest==="contenido"?"":"none";
@@ -754,7 +777,7 @@
   });
 
   function msgReserva(t,tipo){ const m=$("msg-reserva"); m.textContent=t||""; m.className="msg-reserva "+(tipo||""); }
-  $("r-fecha").min=hoyISO();
+  $("r-fecha").min=hoyISO(); $("r-fecha").max=hoyISO(365);
   $("r-nivel").onchange=()=>{ const cert=$("r-nivel").value==="certificado"; const op=$("r-servicio").querySelector('option[value="certificados"]');
     op.disabled=!cert; if(!cert && $("r-servicio").value==="certificados") $("r-servicio").value="bautismo"; };
   $("r-nivel").onchange();
@@ -763,14 +786,20 @@
     const d={
       uid:usuario.uid, correo:usuario.email||"",
       nombre:$("r-nombre").value.trim(), telefono:$("r-telefono").value.trim(),
-      destino:$("r-destino").value, fecha:$("r-fecha").value,
+      destinoId:$("r-destino").value,
+      destino:($("r-destino").selectedOptions[0]||{}).textContent||"", fecha:$("r-fecha").value,
       personas:parseInt($("r-personas").value,10), nivel:$("r-nivel").value, servicio:$("r-servicio").value,
-      comentarios:$("r-comentarios").value.trim(), estado:"pendiente"
+      comentarios:$("r-comentarios").value.trim(), confirmaEdad:$("r-edad").checked, estado:"pendiente"
     };
+    const digitos=d.telefono.replace(/\D/g,"").length;
     if(d.nombre.length<2) return msgReserva("Escribe tu nombre completo.","error");
-    if(!/^[0-9+() -]{7,20}$/.test(d.telefono)) return msgReserva("Escribe un teléfono válido (solo números, mínimo 7).","error");
-    if(!d.destino) return msgReserva("Selecciona un destino.","error");
+    if(!/^\+?[0-9][0-9 ()-]{6,19}$/.test(d.telefono) || digitos<7 || digitos>15) return msgReserva("Escribe un teléfono válido (entre 7 y 15 números).","error");
+    if(!d.destinoId) return msgReserva("Selecciona un destino.","error");
     if(!d.fecha || d.fecha<hoyISO()) return msgReserva("Escoge una fecha de hoy en adelante.","error");
+    if(d.fecha>hoyISO(365)) return msgReserva("Solo se reciben reservas con máximo un año de anticipación.","error");
+    const activas=RESERVAS.filter(r=>r.uid===usuario.uid && (r.estado==="pendiente"||r.estado==="confirmada"));
+    if(activas.some(r=>r.destinoId===d.destinoId && r.fecha===d.fecha)) return msgReserva("Ya tienes una reserva activa para ese destino en esa fecha.","error");
+    if(activas.filter(r=>r.estado==="pendiente").length>=MAX_PENDIENTES) return msgReserva("Tienes "+MAX_PENDIENTES+" reservas pendientes. Espera a que el administrador las valide antes de enviar otra.","error");
     if(!(d.personas>=1 && d.personas<=20)) return msgReserva("El número de personas debe estar entre 1 y 20.","error");
     if(d.servicio==="certificados" && d.nivel!=="certificado") return msgReserva("Las inmersiones para certificados son solo para buzos certificados.","error");
     if(!$("r-edad").checked) return msgReserva("Debes confirmar que todas las personas tienen al menos 10 años.","error");

@@ -1,0 +1,46 @@
+PROMPT MAESTRO – GUÍA DE BUCEO EN EL CARIBE COLOMBIANO
+
+ROL
+Actúa como instructor de buceo certificado (PADI/NAUI) y asesor experto en turismo marino en Colombia. Tu tono es cercano, claro y confiable. Escribes para viajeros nacionales y extranjeros, desde quien nunca ha buceado hasta buzos con experiencia.
+
+CONTEXTO
+El Caribe colombiano es un destino de referencia mundial para la exploración marina gracias a sus 2.900 km de costas, la riqueza de sus arrecifes de coral y la calidez de sus aguas. Los destinos principales son:
+- San Andrés y Providencia: Reserva de la Biosfera Seaflower (UNESCO), tercera barrera de coral más grande del mundo, visibilidad cristalina, Blue Wall (pared submarina profunda), pasajes entre fallas y cuevas.
+- Santa Marta y Taganga (Parque Tayrona): capital colombiana del buceo recreativo y de certificación PADI/NAUI. Bahías protegidas y poco profundas de hasta 12 m (Playa Granate, Bahía Concha, Isla Aguja), ideales para aprender.
+- Islas del Rosario y San Bernardo (Cartagena y Rincón del Mar): jardines de coral (cerebro, cuerno de alce, gorgonias), esponjas barril, peces tropicales y naufragios. Agua entre 27 °C y 29 °C todo el año.
+- Capurganá e Isla Fuerte (Darién y Córdoba): arrecifes vírgenes, ambiente tranquilo y poco concurrido.
+Requisitos: edad mínima de 10 años. Los principiantes pueden hacer bautismo (Discover Scuba Diving) o el curso Open Water Diver en Taganga, Islas del Rosario o San Andrés. Los buzos certificados tienen inmersiones profundas, buceo a la deriva (drift dive) y exploración de naufragios.
+Clima: agua entre 21 °C y 29 °C según zona y época. Se bucea todo el año. En Santa Marta el mar está más calmo de abril a diciembre. De diciembre a marzo hay más visibilidad pero más oleaje.
+
+OBJETIVO
+Elabora una guía práctica que permita a cualquier persona elegir el destino de buceo del Caribe colombiano más adecuado según su nivel de experiencia y la época en que viaja. Al terminar, el lector debe saber a dónde ir, cuándo ir y qué nivel necesita.
+
+EJEMPLOS
+Correcto: "Si es tu primera vez, Taganga es ideal: aguas tranquilas de hasta 12 m y escuelas con certificación PADI. Ve entre abril y diciembre, cuando el mar está más calmo."
+Incorrecto: "El Caribe es hermoso y tiene muchos lugares para bucear, todos son increíbles." (Es vago y no ayuda a decidir.)
+
+LÍMITES
+- Incluye solo los cuatro destinos, los niveles de experiencia, la temperatura del agua y las temporadas.
+- No incluyas precios, operadores, hoteles, transporte ni destinos fuera del Caribe colombiano.
+- Extensión máxima: 400 palabras.
+
+RESTRICCIONES
+- Usa únicamente la información del CONTEXTO. No inventes profundidades, especies, cifras ni precios.
+- Si un dato no está en el contexto, escribe "No especificado".
+- Menciona la edad mínima de 10 años cuando hables de principiantes.
+- No recomiendes inmersiones profundas, de deriva ni en naufragios a personas sin certificación.
+- Escribe en lenguaje natural, sin muletillas ni frases de relleno.
+
+FORMATO
+1. Introducción de 2 o 3 líneas.
+2. Tabla comparativa con estas columnas: Destino | Atractivo principal | Profundidad / condiciones | Nivel recomendado | Mejor época.
+3. Requisitos por nivel, en viñetas: Principiantes / Certificados.
+4. Recomendación final de 2 o 3 líneas: "¿A dónde voy según mi perfil?".
+
+REVISIÓN (antes de responder, verifica)
+- Están los cuatro destinos.
+- Cada destino tiene nivel recomendado y mejor época.
+- Las cifras (2.900 km, 12 m, 21–29 °C, 27–29 °C, 10 años) coinciden con el contexto.
+- Las temporadas están bien asignadas.
+- No hay datos inventados y el texto no pasa de 400 palabras.
+Si algo no cumple, corrígelo antes de entregar.
