@@ -142,6 +142,8 @@
   .caja-login .olvide{display:block;margin:.9rem auto 0;padding:0;font-size:.85rem;color:#d7f3ff;cursor:pointer;text-decoration:underline;background:none;border:0}
   .msg-login{min-height:1.4rem;margin-top:1rem;text-align:center;font-size:.9rem;color:#ffe1d6}
   .msg-login.ok{color:#c9f7e4}
+  .cambio-modo{text-align:center;margin-top:.6rem;font-size:.9rem;color:#e3f4fb}
+  .cambio-modo button{background:none;border:0;color:var(--sol);font-weight:700;cursor:pointer;text-decoration:underline;font-size:.9rem;padding:0}
   #contenido-protegido{display:none}
 
   /* ---------- MENÚ SUPERIOR ---------- */
@@ -221,6 +223,54 @@
   .msg-panel.ok{color:#1f7a3a}
   .seed{background:#fff7e0;border:1px solid #ffe2a1;border-radius:14px;padding:1rem;margin-bottom:1rem;font-size:.9rem;color:#5c4a12}
   .seed button{margin-top:.6rem}
+
+  /* ---------- ROLES ---------- */
+  .solo-admin{display:none!important}
+  body.es-admin .solo-admin{display:inline-flex!important}
+  .rol{font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:999px;background:#13b3c2;color:#fff;white-space:nowrap}
+  .rol.admin{background:var(--coral)}
+
+  /* ---------- RESERVAS ---------- */
+  .reservas-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2rem;align-items:start}
+  @media (max-width:900px){.reservas-grid{grid-template-columns:1fr}}
+  .form-reserva{background:#fff;border-radius:22px;padding:1.8rem;box-shadow:0 14px 40px rgba(6,61,99,.12)}
+  .form-reserva h3{font-size:1.35rem;color:var(--abismo);margin-bottom:.2rem}
+  .form-reserva .sub{color:var(--suave);font-size:.9rem;margin-bottom:1rem}
+  .form-reserva .fila{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media (max-width:560px){.form-reserva .fila{grid-template-columns:1fr}}
+  .form-reserva label{display:block;font-size:.8rem;font-weight:700;color:var(--profundo);margin:.9rem 0 .3rem}
+  .form-reserva input,.form-reserva select,.form-reserva textarea{width:100%;padding:.7rem .85rem;border:1px solid #cfe0e7;border-radius:12px;font:inherit;font-size:.95rem;background:#f9fdfe;color:var(--texto)}
+  .form-reserva textarea{min-height:80px;resize:vertical}
+  .form-reserva input:focus,.form-reserva select:focus,.form-reserva textarea:focus{outline:none;border-color:var(--turquesa);box-shadow:0 0 0 3px rgba(19,179,194,.18)}
+  .check{display:flex;gap:.6rem;align-items:flex-start;margin-top:1rem;font-size:.88rem;color:#3c566b}
+  .check input{width:auto;margin-top:.2rem}
+  .form-reserva .b{margin-top:1.2rem;padding:.85rem 1.6rem;font-size:.95rem}
+  .msg-reserva{margin-top:.8rem;font-size:.9rem;min-height:1.2rem}
+  .msg-reserva.error{color:#a3341a}.msg-reserva.ok{color:#1f7a3a}
+  .mis-reservas h3{font-size:1.2rem;color:var(--abismo);margin-bottom:.8rem}
+  .reserva{background:#fff;border-radius:16px;padding:1rem 1.2rem;box-shadow:0 8px 24px rgba(6,61,99,.09);margin-bottom:.8rem;border-left:5px solid #cfe0e7}
+  .reserva.pendiente{border-left-color:var(--sol)}
+  .reserva.confirmada{border-left-color:#2fa35a}
+  .reserva.rechazada{border-left-color:var(--coral)}
+  .reserva.cancelada{border-left-color:#9aa9b5;opacity:.75}
+  .reserva .cab{display:flex;justify-content:space-between;gap:.6rem;align-items:center}
+  .reserva .dest{font-weight:700;color:var(--abismo)}
+  .reserva .det{font-size:.85rem;color:#4a6377;margin-top:.3rem}
+  .reserva .nota{font-size:.85rem;margin-top:.5rem;background:#f2f8fa;border-radius:10px;padding:.5rem .7rem;color:#2d4a5e}
+  .estado{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.25rem .6rem;border-radius:999px;white-space:nowrap}
+  .estado.pendiente{background:#fff3cf;color:#8a6500}
+  .estado.confirmada{background:#dff5e6;color:#1f7a3a}
+  .estado.rechazada{background:#ffe3da;color:#a3341a}
+  .estado.cancelada{background:#e9eef1;color:#5d6f7c}
+  .reserva .acciones{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+  .reserva textarea{width:100%;min-height:54px;margin-top:.6rem;padding:.5rem .7rem;border:1px solid #cfe0e7;border-radius:10px;font:inherit;font-size:.85rem}
+  .mi-id{margin-top:1.4rem;font-size:.8rem;color:var(--suave)}
+  .mi-id summary{cursor:pointer}
+  .mi-id code{display:inline-block;margin-top:.4rem;background:#eef6f8;padding:.3rem .5rem;border-radius:8px;user-select:all;word-break:break-all}
+  .pestanas{display:flex;gap:.4rem;margin-bottom:1rem;border-bottom:2px solid #e1edf1}
+  .pestanas button{border:0;background:none;padding:.6rem 1rem;font-weight:700;color:var(--suave);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-size:.9rem}
+  .pestanas button.activa{color:var(--abismo);border-bottom-color:var(--turquesa)}
+  .resumen-res{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
 </style>
 </head>
 <body>
@@ -230,14 +280,19 @@
   <div class="rayos"></div>
   <form class="caja-login" id="form-login" autocomplete="on">
     <h2>Bucea el <em>Caribe</em></h2>
-    <p class="intro">Inicia sesión para ver la guía de buceo</p>
+    <p class="intro" id="intro-login">Inicia sesión para ver la guía de buceo</p>
     <label for="correo">Correo electrónico</label>
     <input type="email" id="correo" required placeholder="tu@correo.com" autocomplete="username">
     <label for="clave">Contraseña</label>
     <input type="password" id="clave" required placeholder="••••••••" autocomplete="current-password">
+    <div id="campo-clave2" style="display:none">
+      <label for="clave2">Repite la contraseña</label>
+      <input type="password" id="clave2" placeholder="••••••••" autocomplete="new-password">
+    </div>
     <button type="submit" class="btn-principal" id="btn-entrar">Entrar</button>
     <button type="button" class="olvide" id="btn-olvide">¿Olvidaste tu contraseña?</button>
     <div class="msg-login" id="msg-login"></div>
+    <p class="cambio-modo" id="cambio-modo">¿No tienes cuenta? <button type="button" id="btn-modo">Crear cuenta</button></p>
   </form>
 </div>
 
@@ -255,9 +310,11 @@
     <a href="#noticias">Noticias</a>
     <a href="#galeria">Galería</a>
     <a href="#perfiles">Mi perfil</a>
+    <a href="#reservas"><b>Reservar</b></a>
   </nav>
   <span class="usuario" id="usuario-actual"></span>
-  <button class="btn-admin" id="btn-admin" type="button">✏️ Administrar</button>
+  <span class="rol" id="rol-actual">Usuario</span>
+  <button class="btn-admin solo-admin" id="btn-admin" type="button">✏️ Administrar</button>
   <button class="btn-salir" id="btn-salir" type="button">Salir</button>
 </div>
 
@@ -405,6 +462,51 @@
   </div>
 </section>
 
+<!-- ================= RESERVAS ================= -->
+<section class="franja" id="reservas">
+  <div class="contenedor">
+    <div class="titulo-sec"><small>Reservas</small><h2>Reserva tu inmersión</h2>
+      <p>Envía tu solicitud y el administrador la validará. Aquí mismo verás si quedó confirmada.</p></div>
+    <div class="reservas-grid">
+      <form class="form-reserva" id="form-reserva" novalidate>
+        <h3>Nueva reserva</h3>
+        <div class="sub">Los campos con * son obligatorios.</div>
+        <div class="fila">
+          <div><label for="r-nombre">Nombre completo *</label><input id="r-nombre" maxlength="100" required></div>
+          <div><label for="r-telefono">Teléfono / WhatsApp *</label><input id="r-telefono" type="tel" maxlength="20" required></div>
+        </div>
+        <label for="r-destino">Destino *</label>
+        <select id="r-destino" required></select>
+        <div class="fila">
+          <div><label for="r-fecha">Fecha *</label><input id="r-fecha" type="date" required></div>
+          <div><label for="r-personas">Número de personas *</label><input id="r-personas" type="number" min="1" max="20" value="1" required></div>
+        </div>
+        <div class="fila">
+          <div><label for="r-nivel">Tu nivel *</label>
+            <select id="r-nivel" required><option value="principiante">Principiante (sin certificación)</option><option value="certificado">Buzo certificado</option></select></div>
+          <div><label for="r-servicio">Servicio *</label>
+            <select id="r-servicio" required>
+              <option value="bautismo">Bautismo (Discover Scuba Diving)</option>
+              <option value="open_water">Curso Open Water Diver</option>
+              <option value="certificados">Inmersión para certificados (profunda, deriva o naufragio)</option>
+            </select></div>
+        </div>
+        <label for="r-comentarios">Comentarios</label>
+        <textarea id="r-comentarios" maxlength="500" placeholder="Opcional"></textarea>
+        <label class="check"><input type="checkbox" id="r-edad"> Confirmo que todas las personas de la reserva tienen al menos 10 años.</label>
+        <button type="submit" class="b b-prim" id="btn-reservar">Enviar reserva</button>
+        <div class="msg-reserva" id="msg-reserva"></div>
+      </form>
+      <div class="mis-reservas">
+        <h3>Mis reservas</h3>
+        <div id="lista-mis-reservas"><div class="cargando">Cargando…</div></div>
+        <details class="mi-id"><summary>Mi ID de usuario</summary>
+          <div>Lo necesitas para dar permisos de administrador a esta cuenta:</div><code id="mi-uid"></code></details>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>Guía de buceo en el Caribe colombiano · Contenido administrado en Firebase · Bucea siempre con un centro certificado.</footer>
 
 <!-- ================= PANEL ADMIN ================= -->
@@ -412,6 +514,17 @@
 <aside class="panel" id="panel" aria-label="Administrar contenido">
   <div class="panel-cab"><h2>Administrar contenido</h2><button type="button" id="btn-cerrar-panel" aria-label="Cerrar">×</button></div>
   <div class="panel-cuerpo">
+    <div class="pestanas"><button type="button" class="activa" data-pest="contenido">Contenido</button><button type="button" data-pest="reservas">Reservas <span id="cuenta-pend"></span></button></div>
+    <div id="pest-reservas" style="display:none">
+      <div class="resumen-res" id="resumen-res"></div>
+      <select id="filtro-res" style="margin-bottom:1rem">
+        <option value="pendiente">Pendientes por validar</option><option value="confirmada">Confirmadas</option>
+        <option value="rechazada">Rechazadas</option><option value="cancelada">Canceladas</option><option value="">Todas</option>
+      </select>
+      <div class="msg-panel" id="msg-res"></div>
+      <div id="lista-res-admin"></div>
+    </div>
+    <div id="pest-contenido">
     <div class="seed" id="caja-seed" style="display:none">
       La base de datos está vacía. Puedes cargar la información inicial de la guía (4 destinos, niveles, temporadas y recomendaciones).
       <br><button type="button" class="b b-sol" id="btn-seed">Cargar contenido inicial</button>
@@ -423,6 +536,7 @@
     <div id="zona-form"></div>
     <div class="msg-panel" id="msg-panel"></div>
     <div id="lista-admin"></div>
+    </div>
   </div>
 </aside>
 
@@ -451,9 +565,9 @@
   // =======================================================================
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail }
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, writeBatch, serverTimestamp }
+  import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, writeBatch, serverTimestamp, getDoc, query, where }
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const app = initializeApp(firebaseConfig);
@@ -562,6 +676,121 @@
   };
 
   let DATOS = [];
+  // ---------- Roles ----------
+  let esAdmin=false, usuario=null;
+  function aplicarRol(){
+    document.body.classList.toggle("es-admin",esAdmin);
+    const r=$("rol-actual"); r.textContent=esAdmin?"Administrador":"Usuario"; r.className="rol"+(esAdmin?" admin":"");
+  }
+
+  // ---------- Reservas ----------
+  const SERVICIOS={bautismo:"Bautismo (Discover Scuba Diving)",open_water:"Curso Open Water Diver",certificados:"Inmersión para certificados"};
+  const NIVELES={principiante:"Principiante",certificado:"Certificado"};
+  const ESTADOS={pendiente:"Pendiente",confirmada:"Confirmada",rechazada:"Rechazada",cancelada:"Cancelada"};
+  let RESERVAS=[], cancelarRes=null;
+
+  function opcionesDestino(){
+    const sel=$("r-destino"), actual=sel.value; sel.innerHTML="";
+    const dests=DATOS.filter(d=>d.tipo==="destino").sort(porOrden);
+    const o0=el("option","",dests.length?"Selecciona un destino":"Aún no hay destinos registrados"); o0.value=""; sel.appendChild(o0);
+    dests.forEach(d=>{ const o=el("option","",d.titulo); o.value=d.titulo; sel.appendChild(o); });
+    if([...sel.options].some(o=>o.value===actual)) sel.value=actual;
+  }
+  function hoyISO(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+
+  function tarjetaReserva(r, modoAdmin){
+    const c=el("div","reserva "+(r.estado||""));
+    const cab=el("div","cab"); cab.appendChild(el("span","dest",r.destino)); cab.appendChild(el("span","estado "+(r.estado||""),ESTADOS[r.estado]||r.estado));
+    c.appendChild(cab);
+    c.appendChild(el("div","det",fechaBonita(r.fecha)+" · "+r.personas+(r.personas==1?" persona":" personas")+" · "+(SERVICIOS[r.servicio]||r.servicio)));
+    if(modoAdmin){
+      c.appendChild(el("div","det",r.nombre+" · "+r.telefono+" · "+(r.correo||"")+" · Nivel: "+(NIVELES[r.nivel]||r.nivel)));
+      if(r.comentarios) c.appendChild(el("div","det","Comentarios: "+r.comentarios));
+    }
+    if(r.notaAdmin) c.appendChild(el("div","nota","Nota del administrador: "+r.notaAdmin));
+    const acc=el("div","acciones");
+    if(modoAdmin){
+      const nota=el("textarea"); nota.placeholder="Nota para el usuario (opcional)"; nota.maxLength=300; nota.value=r.notaAdmin||""; c.appendChild(nota);
+      const cambiar=async(estado)=>{
+        try{ await updateDoc(doc(db,"reservas",r.id),{estado,notaAdmin:nota.value.trim(),revisadoPor:usuario.uid,actualizado:serverTimestamp()});
+             $("msg-res").textContent="Reserva marcada como "+ESTADOS[estado].toLowerCase()+"."; $("msg-res").className="msg-panel ok"; }
+        catch(err){ $("msg-res").textContent=traducirError(err); $("msg-res").className="msg-panel error"; }
+      };
+      if(r.estado!=="confirmada"){ const b=el("button","b b-prim","✔ Confirmar"); b.type="button"; b.onclick=()=>cambiar("confirmada"); acc.appendChild(b); }
+      if(r.estado!=="rechazada"){ const b=el("button","b b-peligro","✖ Rechazar"); b.type="button"; b.onclick=()=>cambiar("rechazada"); acc.appendChild(b); }
+      if(r.estado!=="pendiente"){ const b=el("button","b b-sec","Volver a pendiente"); b.type="button"; b.onclick=()=>cambiar("pendiente"); acc.appendChild(b); }
+    } else if(r.estado==="pendiente"){
+      const b=el("button","b b-sec","Cancelar reserva"); b.type="button";
+      b.onclick=async()=>{ b.disabled=true; try{ await updateDoc(doc(db,"reservas",r.id),{estado:"cancelada",actualizado:serverTimestamp()}); }
+        catch(err){ msgReserva(traducirError(err),"error"); b.disabled=false; } };
+      acc.appendChild(b);
+    }
+    if(acc.childNodes.length) c.appendChild(acc);
+    return c;
+  }
+  function porFechaCreacion(a,b){ return ((b.creado&&b.creado.seconds)||9e9)-((a.creado&&a.creado.seconds)||9e9); }
+
+  function pintarReservas(){
+    const mias=RESERVAS.filter(r=>usuario && r.uid===usuario.uid).sort(porFechaCreacion);
+    const cont=$("lista-mis-reservas"); cont.innerHTML="";
+    if(!mias.length) cont.appendChild(el("p","det","Todavía no tienes reservas."));
+    mias.forEach(r=>cont.appendChild(tarjetaReserva(r,false)));
+    if(!esAdmin) return;
+    const pend=RESERVAS.filter(r=>r.estado==="pendiente").length;
+    $("cuenta-pend").textContent=pend?"("+pend+")":"";
+    const res=$("resumen-res"); res.innerHTML="";
+    Object.keys(ESTADOS).forEach(k=>res.appendChild(el("span","estado "+k,ESTADOS[k]+": "+RESERVAS.filter(r=>r.estado===k).length)));
+    const filtro=$("filtro-res").value;
+    const lista=RESERVAS.filter(r=>!filtro||r.estado===filtro).sort(porFechaCreacion);
+    const la=$("lista-res-admin"); la.innerHTML="";
+    if(!lista.length) la.appendChild(el("p","det","No hay reservas en este estado."));
+    lista.forEach(r=>la.appendChild(tarjetaReserva(r,true)));
+  }
+  $("filtro-res").onchange=pintarReservas;
+  document.querySelectorAll(".pestanas button").forEach(b=>b.onclick=()=>{
+    document.querySelectorAll(".pestanas button").forEach(x=>x.classList.toggle("activa",x===b));
+    $("pest-contenido").style.display=b.dataset.pest==="contenido"?"":"none";
+    $("pest-reservas").style.display=b.dataset.pest==="reservas"?"":"none";
+  });
+
+  function msgReserva(t,tipo){ const m=$("msg-reserva"); m.textContent=t||""; m.className="msg-reserva "+(tipo||""); }
+  $("r-fecha").min=hoyISO();
+  $("r-nivel").onchange=()=>{ const cert=$("r-nivel").value==="certificado"; const op=$("r-servicio").querySelector('option[value="certificados"]');
+    op.disabled=!cert; if(!cert && $("r-servicio").value==="certificados") $("r-servicio").value="bautismo"; };
+  $("r-nivel").onchange();
+  $("form-reserva").addEventListener("submit",async(e)=>{
+    e.preventDefault(); msgReserva("");
+    const d={
+      uid:usuario.uid, correo:usuario.email||"",
+      nombre:$("r-nombre").value.trim(), telefono:$("r-telefono").value.trim(),
+      destino:$("r-destino").value, fecha:$("r-fecha").value,
+      personas:parseInt($("r-personas").value,10), nivel:$("r-nivel").value, servicio:$("r-servicio").value,
+      comentarios:$("r-comentarios").value.trim(), estado:"pendiente"
+    };
+    if(d.nombre.length<2) return msgReserva("Escribe tu nombre completo.","error");
+    if(!/^[0-9+() -]{7,20}$/.test(d.telefono)) return msgReserva("Escribe un teléfono válido (solo números, mínimo 7).","error");
+    if(!d.destino) return msgReserva("Selecciona un destino.","error");
+    if(!d.fecha || d.fecha<hoyISO()) return msgReserva("Escoge una fecha de hoy en adelante.","error");
+    if(!(d.personas>=1 && d.personas<=20)) return msgReserva("El número de personas debe estar entre 1 y 20.","error");
+    if(d.servicio==="certificados" && d.nivel!=="certificado") return msgReserva("Las inmersiones para certificados son solo para buzos certificados.","error");
+    if(!$("r-edad").checked) return msgReserva("Debes confirmar que todas las personas tienen al menos 10 años.","error");
+    const b=$("btn-reservar"); b.disabled=true; msgReserva("Enviando…","ok");
+    try{
+      d.creado=serverTimestamp(); d.actualizado=serverTimestamp();
+      await addDoc(collection(db,"reservas"),d);
+      $("form-reserva").reset(); $("r-nivel").onchange(); $("r-personas").value=1;
+      msgReserva("¡Reserva enviada! Queda pendiente hasta que el administrador la valide.","ok");
+    }catch(err){ msgReserva(traducirError(err),"error"); }
+    finally{ b.disabled=false; }
+  });
+
+  function escucharReservas(){
+    if(cancelarRes) cancelarRes();
+    const ref = esAdmin ? collection(db,"reservas") : query(collection(db,"reservas"),where("uid","==",usuario.uid));
+    cancelarRes=onSnapshot(ref,(snap)=>{ RESERVAS=snap.docs.map(d=>({id:d.id,...d.data()})); pintarReservas(); },
+      (err)=>{ $("lista-mis-reservas").innerHTML=""; $("lista-mis-reservas").appendChild(el("p","det",traducirError(err))); });
+  }
+
   function pintarTodo(){
     Object.keys(TIPOS).forEach(tipo=>{
       const items=DATOS.filter(d=>d.tipo===tipo).sort(porOrden);
@@ -571,6 +800,7 @@
       if(sec) sec.classList.toggle("seccion-vacia", items.length===0);
     });
     pintarAdmin();
+    opcionesDestino();
   }
 
   // ---------- Panel de administración ----------
@@ -578,7 +808,7 @@
   Object.entries(TIPOS).forEach(([k,v])=>{ const o=el("option","",v.nombre); o.value=k; selTipo.appendChild(o); });
   function msgPanel(t,tipo){ const m=$("msg-panel"); m.textContent=t||""; m.className="msg-panel "+(tipo||""); }
 
-  function abrirPanel(){ document.body.classList.add("panel-abierto","modo-admin"); pintarTodo(); }
+  function abrirPanel(){ if(!esAdmin) return; document.body.classList.add("panel-abierto","modo-admin"); pintarTodo(); pintarReservas(); }
   function cerrarPanel(){ document.body.classList.remove("panel-abierto","modo-admin"); $("zona-form").innerHTML=""; msgPanel(""); pintarTodo(); }
   $("btn-admin").onclick=abrirPanel; $("btn-cerrar-panel").onclick=cerrarPanel; $("panel-fondo").onclick=cerrarPanel;
   $("btn-nuevo").onclick=()=>mostrarFormulario(selTipo.value,null);
@@ -626,7 +856,7 @@
 
   function pintarAdmin(){
     const cont=$("lista-admin"); cont.innerHTML="";
-    $("caja-seed").style.display = (DATOS.length===0 && listo) ? "" : "none";
+    $("caja-seed").style.display = (DATOS.length===0 && listo && esAdmin) ? "" : "none";
     Object.entries(TIPOS).forEach(([tipo,def])=>{
       const items=DATOS.filter(d=>d.tipo===tipo).sort(porOrden);
       const g=el("div","grupo-admin"); g.appendChild(el("h3","",def.nombre+" ("+items.length+")"));
@@ -692,7 +922,7 @@
   // ---------- Errores ----------
   function traducirError(err){
     const c=(err&&err.code)||"";
-    if(c.includes("permission-denied")) return "Firestore no dio permiso. Revisa que publicaste las reglas de seguridad (archivo firestore.rules).";
+    if(c.includes("permission-denied")) return "No tienes permiso para esta acción, o faltan publicar las reglas de seguridad (archivo firestore.rules).";
     if(c.includes("not-found")||c.includes("failed-precondition")) return "No se encontró la base de datos Firestore. Créala en la consola de Firebase.";
     if(c.includes("unavailable")) return "Sin conexión con Firebase. Revisa tu internet.";
     return "Ocurrió un error: "+(err&&err.message?err.message:c);
@@ -706,7 +936,7 @@
       listo=true; avisoSistema("");
       DATOS=snap.docs.map(d=>({id:d.id,...d.data()}));
       pintarTodo();
-      if(DATOS.length===0) avisoSistema("La base de datos está vacía. Entra a ✏️ Administrar y usa “Cargar contenido inicial”.");
+      if(DATOS.length===0) avisoSistema(esAdmin ? "La base de datos está vacía. Entra a ✏️ Administrar y usa “Cargar contenido inicial”." : "La guía todavía no tiene contenido publicado. Vuelve pronto.");
     },(err)=>{ listo=true; $("lista-destino").innerHTML=""; avisoSistema(traducirError(err)); pintarTodo(); });
   }
 
@@ -716,22 +946,50 @@
   const ERR_LOGIN={"auth/invalid-credential":"Correo o contraseña incorrectos.","auth/wrong-password":"Correo o contraseña incorrectos.",
     "auth/user-not-found":"Correo o contraseña incorrectos.","auth/invalid-email":"El correo no es válido.",
     "auth/too-many-requests":"Demasiados intentos. Espera unos minutos.","auth/network-request-failed":"Sin conexión a internet.",
-    "auth/unauthorized-domain":"Este dominio no está autorizado en Firebase.","auth/operation-not-allowed":"Activa el inicio con correo/contraseña en Firebase."};
+    "auth/unauthorized-domain":"Este dominio no está autorizado en Firebase.",
+    "auth/email-already-in-use":"Ese correo ya tiene cuenta. Usa “Iniciar sesión”.","auth/weak-password":"La contraseña debe tener mínimo 6 caracteres.","auth/operation-not-allowed":"Activa el inicio con correo/contraseña en Firebase."};
 
   onAuthStateChanged(auth,(user)=>{
     if(user){
+      usuario=user;
       $("pantalla-login").style.display="none"; $("contenido-protegido").style.display="block";
-      $("usuario-actual").textContent=user.email; escuchar();
+      $("usuario-actual").textContent=user.email; $("mi-uid").textContent=user.uid;
+      (async()=>{
+        try{ esAdmin=(await getDoc(doc(db,"admins",user.uid))).exists(); }catch(e){ esAdmin=false; }
+        aplicarRol(); escuchar(); escucharReservas(); pintarTodo();
+      })();
     } else {
       if(cancelar){ cancelar(); cancelar=null; } DATOS=[]; listo=false;
+      if(cancelarRes){ cancelarRes(); cancelarRes=null; } RESERVAS=[]; usuario=null; esAdmin=false; aplicarRol();
       document.body.classList.remove("panel-abierto","modo-admin");
       $("contenido-protegido").style.display="none"; $("pantalla-login").style.display="flex";
     }
   });
+  let modoRegistro=false;
+  $("btn-modo").addEventListener("click",()=>{
+    modoRegistro=!modoRegistro; mensaje("");
+    $("campo-clave2").style.display=modoRegistro?"block":"none";
+    $("clave2").required=modoRegistro;
+    $("clave").autocomplete=modoRegistro?"new-password":"current-password";
+    $("intro-login").textContent=modoRegistro?"Crea tu cuenta para ver la guía de buceo":"Inicia sesión para ver la guía de buceo";
+    btn.textContent=modoRegistro?"Crear cuenta":"Entrar";
+    $("btn-olvide").style.display=modoRegistro?"none":"block";
+    $("cambio-modo").firstChild.textContent=modoRegistro?"¿Ya tienes cuenta? ":"¿No tienes cuenta? ";
+    $("btn-modo").textContent=modoRegistro?"Iniciar sesión":"Crear cuenta";
+  });
   $("form-login").addEventListener("submit",async(e)=>{
-    e.preventDefault(); btn.disabled=true; mensaje("Verificando…",true);
-    try{ await signInWithEmailAndPassword(auth,$("correo").value.trim(),$("clave").value); mensaje(""); }
-    catch(err){ mensaje(ERR_LOGIN[err.code]||"No fue posible iniciar sesión."); }
+    e.preventDefault();
+    const correo=$("correo").value.trim(), clave=$("clave").value;
+    if(modoRegistro){
+      if(clave.length<6){ mensaje("La contraseña debe tener mínimo 6 caracteres."); return; }
+      if(clave!==$("clave2").value){ mensaje("Las contraseñas no coinciden."); return; }
+    }
+    btn.disabled=true; mensaje(modoRegistro?"Creando cuenta…":"Verificando…",true);
+    try{
+      if(modoRegistro) await createUserWithEmailAndPassword(auth,correo,clave);
+      else await signInWithEmailAndPassword(auth,correo,clave);
+      mensaje("");
+    }catch(err){ mensaje(ERR_LOGIN[err.code]||("No fue posible continuar. ("+(err.code||"error")+")")); }
     finally{ btn.disabled=false; }
   });
   $("btn-olvide").addEventListener("click",async()=>{
